@@ -1,39 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; background-color: #f9f9f9; }
-        .navbar { background-color: #000; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; }
-        .nav-brand { font-size: 1.2em; font-weight: bold; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 0.95em; transition: color 0.3s; }
-        .nav-links a:hover { color: #888; }
-        .btn-contact { background-color: #e60000; color: #fff !important; padding: 8px 20px; border-radius: 20px; font-weight: bold; }
-        .btn-contact:hover { background-color: #cc0000; }
-        .content { max-width: 800px; margin: 50px auto; padding: 20px; }
-        h1 { color: #1a1a1a; }
-        .tag { color: #666; font-size: 0.9em; }
-        /* 博客和联系页的补充样式也可以全塞在这里 */
-        .article-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .contact-card { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: inline-block; text-align: left; border-top: 4px solid #e60000; }
-        .contact-item { margin-bottom: 20px; font-size: 1.1em; color: #555; }
-        .contact-item b { color: #000; display: inline-block; width: 100px;}
+        /* --- 学术极客 (Plan C) 色彩变量 --- */
+        :root {
+            --bg-color: #FAF9F6;       /* 羊皮纸白 */
+            --text-color: #2D3436;     /* 瓦砾灰正文 */
+            --navbar-bg: #F1F3F5;      /* 导航栏冷灰 */
+            --accent-color: #4A90E2;   /* 理性逻辑蓝 */
+        }
+
+        /* 基础底漆 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        /* --- 核心重构：悬浮岛导航栏 (Golden Ratio) --- */
+        .navbar {
+            background-color: var(--navbar-bg);
+            /* 物理约束：最大宽度780px，不再横跨全屏 */
+            max-width: 780px; 
+            /* 几何居中：上下留出24px的呼吸空间，左右自动居中对齐 */
+            margin: 24px auto; 
+            /* 工业倒角：12像素的圆角，让边缘不再锋利 */
+            border-radius: 12px; 
+            /* 悬浮力场：加一点极淡的阴影，让它像悬浮在纸面上 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); 
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+            border: 1px solid #E0DBCF; /* 极细的边框增加精致感 */
+        }
+
+        .nav-brand {
+            font-size: 1.1em;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #111;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #636E72;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-color);
+        }
+
+        /* 理性蓝 Contact 按钮 */
+        .btn-contact {
+            background-color: var(--accent-color);
+            color: white !important;
+            padding: 6px 20px;
+            border-radius: 8px; /* 稍微硬朗一点的圆角 */
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        /* 内容区容器：与导航栏宽度绝对对齐 */
+        .content {
+            max-width: 780px; 
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 { color: #111; line-height: 1.3; }
+        .tag { color: var(--accent-color); font-size: 0.85em; font-weight: bold; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-brand">把活着的每一天看作生命的最后一天</div>
+        <a href="index.html" class="nav-brand">JAY'S SYSTEM</a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="blog.html">Blog</a>
-            <a href="contact.html" class="btn-contact">Get in touch &rarr;</a>
+            <a href="contact.html" class="btn-contact">Get in touch</a>
         </div>
     </nav>
 
-    {{ content }}
+    <main class="content">
+        {{ content }}
+    </main>
 
 </body>
 </html>
