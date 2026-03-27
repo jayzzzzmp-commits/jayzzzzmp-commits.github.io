@@ -17,8 +17,25 @@
     </style>
 </head>
 <body>
-    <h1>系统已上线。I am a Builder.</h1>
+    <h1 id="dynamic-title">Loading time...</h1>
+    
     <p>这里是我的个人硅基阵地。我将在这里输出关于 <b>供应链风险管理 (SCRM)</b> 与 <b>AI 自动化流程</b> 的第一性原理推演。</p>
     <p class="tag">Next: 《库克供应链神迹与单点故障》</p>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            // 强制转换为英国时区的时间格式 (HH:MM:SS)
+            const ukTime = now.toLocaleTimeString('en-GB', { timeZone: 'Europe/London' });
+            
+            // 把时间和你的欢迎语拼接起来，塞进上面的 <h1> 标签里
+            document.getElementById('dynamic-title').innerText = ukTime + " | Welcome to my personal website";
+        }
+        
+        // 网页一打开就立刻执行一次
+        updateTime();
+        // 设置定时器，每 1000 毫秒（1秒）刷新一次时间
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
