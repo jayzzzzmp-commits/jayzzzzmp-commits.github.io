@@ -1,8 +1,18 @@
 ---
 layout: default
-title: Home - My life
+title: Home - My Life
 ---
-/* --- 1. 英雄欢迎卡 (Hero Section) --- */
+
+<style>
+    /* --- 全局布局调整 --- */
+    /* 我们需要在这个页面打破 default 布局的 max-width，让内容更舒展 */
+    .content {
+        max-width: 1100px !important; /* 图中的布局更宽，大约 1100px 左右 */
+        margin: 40px auto;
+        padding: 0 30px;
+    }
+
+    /* --- 1. 英雄欢迎卡 (Hero Section) --- */
     .hero-card {
         background-color: #ffffff;
         border: 1px solid #E0DBCF;
