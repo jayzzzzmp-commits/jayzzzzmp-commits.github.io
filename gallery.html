@@ -4,7 +4,7 @@ title: Gallery - My life
 ---
 
 <style>
-    /* --- 1. 标题标签页 --- */
+    /* --- 1. 标题与分类标签页 --- */
     .gallery-header { margin-bottom: 50px; }
     .gallery-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
     .gallery-header p { color: var(--secondary-text); margin: 0; }
@@ -19,118 +19,112 @@ title: Gallery - My life
         margin-top: 30px;
     }
     .tab-btn {
-        padding: 8px 24px;
-        border-radius: 10px;
-        border: none;
-        background: none;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.1, 0.7, 0.1, 1); /* iOS 缓动曲线 */
-        color: var(--secondary-text);
-        font-size: 0.9em;
-        font-weight: 600;
-        text-decoration: none;
+        padding: 8px 24px; border-radius: 10px; border: none; background: none;
+        cursor: pointer; transition: all 0.3s cubic-bezier(0.1, 0.7, 0.1, 1);
+        color: var(--secondary-text); font-size: 0.9em; font-weight: 600; text-decoration: none;
     }
-    .tab-btn.tab-active {
-        background-color: #fff;
-        color: #111;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+    .tab-btn.tab-active { background-color: #fff; color: #111; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-    /* --- 2. 核心科技：非规则瀑布流排版通用样式 (image_10.png 质感) --- */
-    .masonry-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 完美的3列分栏 */
-        gap: 20px;
-        grid-auto-flow: dense; /* 紧密填充，自动补位 */
-    }
+    /* --- 2. 核心科技：非规则瀑布流排版 (image_4.png 摄影质感保持) --- */
+    .masonry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; grid-auto-flow: dense; }
 
     .photo-item {
-        background-color: #fbfbf7; 
+        background-color: #fbfbf7; border: 1px solid #E0DBCF; border-radius: 16px;
+        overflow: hidden; display: flex; align-items: center; justify-content: center;
+        color: #999; font-style: italic; font-family: serif; transition: all 0.3s ease;
+        cursor: pointer; position: relative;
+    }
+    .photo-item:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-color: var(--accent-color); }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-placeholder-text { position: absolute; pointer-events: none; }
+    .portrait { grid-row: span 2; height: 320px; } 
+    .square { grid-row: span 1; height: 160px; }   
+
+    /* ===============================================================
+       ================= 核心升级：精致专辑网格 (image_8.png 格式) =================
+       =============================================================== */
+    
+    /* 物理层：包裹两个 Pane 的视窗，开启隐藏溢出 */
+    .gallery-wrapper { overflow: hidden; margin-top: 40px; }
+    .gallery-wrapper-inner { display: flex; width: 200%; transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); }
+    .gallery-pane { width: 50%; transition: opacity 0.4s ease; opacity: 0.8; }
+    .gallery-pane.active { opacity: 1; }
+
+    /* 物理级疏通：强制專輯网格为 3 列，不使用 dense 流 */
+    .album-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 固定 3 列 */
+        gap: 30px; /* 加大间距以区分不同专辑 */
+        text-align: left; /* image_8.png 文字左对齐质感 */
+    }
+
+    /* 每一个专辑卡片实体 (带有 image_1.png hover 质感) */
+    .album-card {
+        transition: transform 0.3s ease, border-color 0.3s;
+        cursor: pointer;
+    }
+    .album-card:hover { transform: translateY(-5px); }
+
+    /* 封面视窗 (image_8.png 的方形圆角) */
+    .cover-wrap {
+        background-color: #fbfbf7;
         border: 1px solid #E0DBCF;
-        border-radius: 16px;
-        overflow: hidden; 
-        display: flex; align-items: center; justify-content: center;
-        color: #999; font-style: italic; font-family: serif;
+        border-radius: 20px; /* image_8.png 的大圆角物理层 */
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02); /* 柔和阴影 */
         transition: all 0.3s ease;
-        cursor: pointer; 
+        
+        /* 核心自适应技术：强制方形圆角容器 */
+        aspect-ratio: 1 / 1; 
+        display: flex; align-items: center; justify-content: center; /* 占位符文字居中 */
         position: relative;
     }
-
-    /* 悬停时的物理级反馈 */
-    .photo-item:hover {
-        transform: translateY(-3px); 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
-        border-color: var(--accent-color); 
+    .album-card:hover .cover-wrap {
+        border-color: var(--accent-color); /* 悬浮时边框亮起 */
+        box-shadow: 0 10px 30px rgba(74, 144, 226, 0.05); /* 奶油蓝柔光阴影 */
     }
 
-    /* 真正的摄影作品链接（将来在这里替换图片路径） */
-    .photo-item img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* 占位符文字（当没有图片时显示） */
-    .photo-placeholder-text { position: absolute; pointer-events: none; }
-
-    /* portrait (长方形卡片) */
-    .portrait { grid-row: span 2; height: 320px; } /* 跨2行 */
-    /* square (正方形卡片) */
-    .square { grid-row: span 1; height: 160px; }   /* 跨1行 */
-
-    /* --- 3. iOS 风格过度感容器 --- */
-    /* 物理层：包裹两个 Pane 的视窗，开启隐藏溢出 */
-    .gallery-wrapper {
-        overflow: hidden; 
-        margin-top: 40px;
+    /* 真正的专辑封面链接 (实现“根据图片尺寸灵活变动、自适应填充”) */
+    .album-cover {
+        width: 100%; height: 100%; object-fit: cover; /* 物理参数：覆盖并填充方形区域 */
     }
 
-    /* 发动引擎：将两个 Pane 水平排列，宽度为 200% */
-    .gallery-wrapper-inner {
-        display: flex;
-        width: 200%; 
-        transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); /* iOS 风格缓动 */
+    .cover-placeholder {
+        position: absolute; pointer-events: none; color: #999; font-family: monospace;
     }
 
-    /* 单个 Pane 容器，占视窗的 100% */
-    .gallery-pane {
-        width: 50%; /* 每个 Pane 占父容器的 50%，即视窗的 100% */
-        transition: opacity 0.4s ease; /* 可选的淡入淡出 */
-        opacity: 0.8; /* 默认轻微透明 */
+    /* 文字信息区域排版 (image_8.png 质感) */
+    .album-info {
+        padding: 15px 5px 5px 5px; /* image_8.png 的文字左对齐质感 */
     }
-    .gallery-pane.active {
-        opacity: 1; /* 激活时全透明 */
+    .album-title {
+        font-size: 1.1em; font-weight: 700; margin: 0 0 5px 0; color: #111;
+    }
+    .album-artist {
+        font-size: 0.9em; color: var(--secondary-text); margin: 0;
     }
 
-    /* --- 4. 模拟的专辑网格分布 (为了演示 dense) --- */
-    /* 专辑网格：使第一列和第三列主要由 Square 组成，第二列由 Portrait 组成 */
-    #pane-album .photo-item.square { grid-column: span 1; grid-row: span 1; }
-    #pane-album .photo-item.portrait { grid-column: span 1; grid-row: span 2; }
-
-    /* --- 5. 灯箱 (Lightbox) 全屏覆盖层 --- */
+    /* --- 3. 灯箱 (Lightbox) --- */
     .lightbox {
-        display: none; 
-        position: fixed; z-index: 1000; top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.85); 
-        backdrop-filter: blur(5px); 
-        justify-content: center; align-items: center;
+        display: none; position: fixed; z-index: 1000; top: 0; left: 0;
+        width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); 
+        backdrop-filter: blur(5px); justify-content: center; align-items: center;
     }
-    .close-lightbox {
-        position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s;
-    }
+    .close-lightbox { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .close-lightbox:hover { color: #bbb; }
-    .lightbox-content {
-        margin: auto; display: block; max-width: 90%; max-height: 90%; animation: zoomIn 0.3s; 
-    }
+    .lightbox-content { margin: auto; display: block; max-width: 90%; max-height: 90%; animation: zoomIn 0.3s; }
     @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-    /* 自适应：在手机端将瀑布流变成2列 */
+    /* 自适应：在手机端将瀑布流和专辑网格都变成2列 */
     @media (max-width: 600px) {
         .gallery-header h1 { font-size: 2.2em; }
-        .masonry-grid { grid-template-columns: repeat(2, 1fr); }
+        .masonry-grid, .album-grid { grid-template-columns: repeat(2, 1fr); gap: 15px;}
     }
 </style>
 
 <div class="gallery-header">
     <h1>Gallery</h1>
-   
+    <p>收藏光影与旋律。 (声色存档协议)</p>
     
     <div class="gallery-tabs">
         <a href="gallery.html" class="tab-btn tab-active">摄影</a>
@@ -143,33 +137,89 @@ title: Gallery - My life
         
         <div class="gallery-pane active" id="pane-photography">
             <div class="masonry-grid">
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 1 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 4 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 7 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 1 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 4 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 7 (P)</span><img src="" alt="" style="opacity:0;"></div>
 
-                <div class="photo-item square"><span class="photo-placeholder-text">Photo 2 (Square)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item square"><span class="photo-placeholder-text">Photo 5 (Square)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item square"><span class="photo-placeholder-text">Photo 8 (Square)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Photo 2 (S)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Photo 5 (S)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Photo 8 (S)</span><img src="" alt="" style="opacity:0;"></div>
                 
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 3 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 6 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 9 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 3 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 6 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 9 (P)</span><img src="" alt="" style="opacity:0;"></div>
             </div>
         </div>
 
         <div class="gallery-pane" id="pane-album">
-            <div class="masonry-grid">
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 1 (P)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 4 (P)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 7 (P)</span><img src="" alt="" style="opacity:0;"></div>
-
-                <div class="photo-item square"><span class="photo-placeholder-text">Album 2 (S)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item square"><span class="photo-placeholder-text">Album 5 (S)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item square"><span class="photo-placeholder-text">Album 8 (S)</span><img src="" alt="" style="opacity:0;"></div>
+            <div class="album-grid">
                 
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 3 (P)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 6 (P)</span><img src="" alt="" style="opacity:0;"></div>
-                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 9 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="album-card">
+                    <div class="cover-wrap">
+                        <img src="" alt="Album Cover 1" class="album-cover" style="opacity:0;"> 
+                        <span class="cover-placeholder">Cover 1</span>
+                    </div>
+                    <div class="album-info">
+                        <h4 class="album-title">Album Title 1</h4>
+                        <p class="album-artist">Artist 1</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <div class="cover-wrap">
+                        <img src="" alt="Album Cover 2" class="album-cover" style="opacity:0;"> 
+                        <span class="cover-placeholder">Cover 2</span>
+                    </div>
+                    <div class="album-info">
+                        <h4 class="album-title">Album Title 2</h4>
+                        <p class="album-artist">Artist 2</p>
+                    </div>
+                </div>
+                
+                <div class="album-card">
+                    <div class="cover-wrap">
+                        <img src="" alt="Album Cover 3" class="album-cover" style="opacity:0;"> 
+                        <span class="cover-placeholder">Cover 3</span>
+                    </div>
+                    <div class="album-info">
+                        <h4 class="album-title">Album Title 3</h4>
+                        <p class="album-artist">Artist 3</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <div class="cover-wrap">
+                        <img src="" alt="Album Cover 4" class="album-cover" style="opacity:0;"> 
+                        <span class="cover-placeholder">Cover 4</span>
+                    </div>
+                    <div class="album-info">
+                        <h4 class="album-title">Album Title 4</h4>
+                        <p class="album-artist">Artist 4</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <div class="cover-wrap">
+                        <img src="" alt="Album Cover 5" class="album-cover" style="opacity:0;"> 
+                        <span class="cover-placeholder">Cover 5</span>
+                    </div>
+                    <div class="album-info">
+                        <h4 class="album-title">Album Title 5</h4>
+                        <p class="album-artist">Artist 5</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <div class="cover-wrap">
+                        <img src="" alt="Album Cover 6" class="album-cover" style="opacity:0;"> 
+                        <span class="cover-placeholder">Cover 6</span>
+                    </div>
+                    <div class="album-info">
+                        <h4 class="album-title">Album Title 6</h4>
+                        <p class="album-artist">Artist 6</p>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -186,23 +236,34 @@ title: Gallery - My life
     const wrapperInner = document.getElementById('gallery-inner');
     const photographyPane = document.getElementById('pane-photography');
     const albumPane = document.getElementById('pane-album');
-    const grids = document.querySelectorAll('.masonry-grid'); // 获取所有网格
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.getElementById('close-lightbox');
 
-    grids.forEach(grid => { // 为每个网格添加事件监听器
-        grid.addEventListener('click', function(e) {
-            const item = e.target.closest('.photo-item');
-            if (!item) return;
-            const img = item.querySelector('img');
-            // 只有当图片真正有链接时才触发放大
-            if (img && img.src && img.src !== window.location.href) {
-                lightboxImg.src = img.src;
-                lightbox.style.display = 'flex';
-            }
-        });
-    });
+    // 疏通物理级选择器：同时监听摄影和专辑网格
+    const photographyGrid = document.querySelector('#pane-photography .masonry-grid');
+    const albumGrid = document.querySelector('#pane-album .album-grid');
+
+    // 处理摄影网格点击放大 (保持非规则瀑布流质感)
+    photographyGrid.addEventListener('click', handleGridClick);
+    // 处理专辑网格点击放大 (专门处理 album-cover 物理层)
+    albumGrid.addEventListener('click', handleGridClick);
+
+    // 通用灯箱点击放大逻辑
+    function handleGridClick(e) {
+        // 疏通物理层：寻找 photo-item 或 cover-wrap 
+        const item = e.target.closest('.photo-item') || e.target.closest('.cover-wrap');
+        if (!item) return;
+        
+        // 寻找内部图片实体
+        const img = item.querySelector('img');
+        
+        // 只有当图片真正有链接 (且不为 0xcafebabe 级别的透明占位图) 时才触发放大
+        if (img && img.src && img.style.opacity !== '0' && img.src !== window.location.href) {
+            lightboxImg.src = img.src;
+            lightbox.style.display = 'flex';
+        }
+    }
 
     // 关闭灯箱的逻辑
     function closeLightbox() { lightbox.style.display = 'none'; }
@@ -213,7 +274,7 @@ title: Gallery - My life
         if (e.target !== lightboxImg) closeLightbox();
     });
 
-    // ================= iOS 风格滑动过度逻辑 =================
+    // ================= iOS 风格滑动过度逻辑 ( image_0.png 特效) =================
     const tabGroup = document.querySelector('.gallery-tabs');
     tabGroup.addEventListener('click', function(e) {
         const clickedBtn = e.target.closest('.tab-btn');
@@ -222,12 +283,11 @@ title: Gallery - My life
 
         // 1. 更新按钮状态
         tabGroup.querySelector('.tab-active').classList.remove('tab-active');
-        tabGroup.querySelector('.tab-inactive').classList.add('tab-inactive'); // 暂时移除inactive类以便演示
+        tabGroup.querySelector('.tab-inactive').classList.add('tab-inactive'); 
 
         clickedBtn.classList.remove('tab-inactive');
         clickedBtn.classList.add('tab-active');
 
-        // 为了演示，让其他按钮变 inactive
         tabGroup.querySelectorAll('.tab-btn:not(.tab-active)').forEach(btn => {
             btn.classList.add('tab-inactive');
         });
