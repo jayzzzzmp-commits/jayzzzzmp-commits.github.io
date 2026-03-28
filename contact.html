@@ -59,8 +59,9 @@ title: Get in touch - My life
         font-size: 1.05em;
     }
     .contact-list li b {
-        width: 90px; /* 固定标题宽度，让后面的内容像表格一样对齐 */
+        width: 120px; /* 拓宽物理边界：从 90px 加大到 120px，给 WeChat 留足空间 */
         color: #111;
+        white-space: nowrap; /* 绝对力场：强制内部文字永远不准换行 */
     }
     
     /* 右侧社交链接按钮化 */
