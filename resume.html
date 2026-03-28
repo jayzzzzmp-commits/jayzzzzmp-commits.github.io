@@ -1,1 +1,200 @@
+---
+layout: default
+title: Resume - My life
+---
 
+<style>
+    /* --- 1. 简历头部 --- */
+    .resume-header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #E0DBCF;
+    }
+    .resume-name {
+        font-size: 2.8em;
+        font-weight: 800;
+        margin-bottom: 5px;
+        letter-spacing: -1px;
+        color: #111;
+    }
+    .resume-title {
+        font-size: 1.2em;
+        color: var(--accent-color);
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    .resume-intro {
+        color: var(--secondary-text);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    /* 下载按钮 */
+    .btn-download {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 25px;
+        background-color: #111;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    .btn-download:hover {
+        background-color: var(--accent-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    /* --- 2. 简历区块通用样式 --- */
+    .resume-section {
+        margin-bottom: 50px;
+    }
+    .section-title {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .section-title::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 24px;
+        background-color: var(--accent-color);
+        border-radius: 4px;
+    }
+
+    /* --- 3. 核心科技：时间轴排版 (Timeline) --- */
+    .timeline {
+        border-left: 2px solid #E0DBCF;
+        padding-left: 30px;
+        margin-left: 10px;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 40px;
+    }
+    /* 时间轴上的小圆点 */
+    .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -37px; /* 定位到竖线上 */
+        top: 6px;
+        width: 12px;
+        height: 12px;
+        background-color: #fff;
+        border: 2px solid var(--accent-color);
+        border-radius: 50%;
+        transition: all 0.3s;
+    }
+    .timeline-item:hover::before {
+        background-color: var(--accent-color);
+        box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+    }
+
+    .item-date {
+        font-family: monospace;
+        color: #888;
+        font-size: 0.9em;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .item-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #111;
+        margin: 0 0 5px 0;
+    }
+    .item-subtitle {
+        color: var(--accent-color);
+        font-weight: 600;
+        font-size: 0.95em;
+        margin: 0 0 10px 0;
+    }
+    .item-desc {
+        color: var(--secondary-text);
+        margin: 0;
+        font-size: 0.95em;
+    }
+
+    /* --- 4. 技能胶囊 (Skill Tags) --- */
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .skill-tag {
+        background-color: #fff;
+        border: 1px solid #E0DBCF;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+        color: #444;
+        transition: all 0.2s;
+    }
+    .skill-tag:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+</style>
+
+<div class="resume-header">
+    <h1 class="resume-name">Jay Zhang</h1>
+    <div class="resume-title">Digital Builder / Creative Thinker</div>
+    <p class="resume-intro">A 23-year-old digital builder based in Glasgow. Passionate about system architecture, minimalist design, and turning complex ideas into elegant digital solutions.</p>
+    
+    <a href="#" class="btn-download">📄 Download PDF Resume</a>
+</div>
+
+<div class="resume-section">
+    <h2 class="section-title">Education</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <span class="item-date">202X - Present</span>
+            <h3 class="item-title">University of Glasgow</h3>
+            <p class="item-subtitle">Master of Science / Bachelor of Science (替换为你的专业)</p>
+            <p class="item-desc">专注于系统设计与逻辑建构。在校期间参与了多个核心项目，熟练掌握理论框架与实践落地。</p>
+        </div>
+        
+        <div class="timeline-item">
+            <span class="item-date">201X - 202X</span>
+            <h3 class="item-title">Previous University / High School</h3>
+            <p class="item-subtitle">Your Major</p>
+            <p class="item-desc">建立了扎实的学术基础，培养了跨学科的思维能力。</p>
+        </div>
+    </div>
+</div>
+
+<div class="resume-section">
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <span class="item-date">Mar 2026 - Present</span>
+            <h3 class="item-title">Personal Digital Infrastructure</h3>
+            <p class="item-subtitle">Independent Architect</p>
+            <p class="item-desc">从零开始设计并部署基于 Jekyll 的全静态个人架构。实现非规则瀑布流排版、响应式 CSS 网格系统，以及底层代码的全面重构与优化。</p>
+        </div>
+    </div>
+</div>
+
+<div class="resume-section">
+    <h2 class="section-title">Skills & Toolkit</h2>
+    <div class="skills-grid">
+        <span class="skill-tag">HTML5 / CSS3</span>
+        <span class="skill-tag">System Design</span>
+        <span class="skill-tag">GitHub Pages</span>
+        <span class="skill-tag">Jekyll</span>
+        <span class="skill-tag">Photography</span>
+        <span class="skill-tag">UI/UX Logic</span>
+    </div>
+</div>
