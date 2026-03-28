@@ -1,83 +1,127 @@
 ---
 layout: default
-title: Gallery - My life
+title: Home - My Life
 ---
 
 <style>
-    /* --- 1. 头部标题 --- */
-    .gallery-header { margin-bottom: 50px; }
-    .gallery-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
-    .gallery-header p { color: #666; margin: 0; }
-
-    /* 标签切换按钮 */
-    .gallery-tabs { display: flex; gap: 15px; margin-top: 30px; }
-    .tab-btn {
-        padding: 6px 20px; border-radius: 15px; font-size: 0.9em; font-weight: 600;
-        cursor: pointer; text-decoration: none; transition: all 0.2s; border: 1px solid #E0DBCF;
-    }
-    .tab-active { background-color: #fff; color: #111; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-    .tab-inactive { background-color: #F1F3F5; color: #666; }
-    .tab-inactive:hover { background-color: #E0DBCF; color: #111; }
-
-    /* --- 2. 极其稳固的瀑布流网格 --- */
-    .masonry-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 强制三列 */
-        gap: 20px;
-        grid-auto-flow: dense; /* 智能填补空隙 */
-        margin-top: 40px;
-    }
-
-    /* 绝对防弹的占位卡片 */
-    .photo-item {
-        background-color: #F8F9FA; /* 极简浅灰色块 */
+    /* --- 1. 英雄欢迎卡 (Hero Section) --- */
+    .hero-card {
+        background-color: #ffffff;
         border: 1px solid #E0DBCF;
-        border-radius: 16px;
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        color: #888; 
-        font-family: monospace; /* 程序员字体，更有极客感 */
-        font-size: 1.1em;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        border-radius: 20px;
+        padding: 50px 40px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        margin-bottom: 30px;
+        transition: all 0.3s;
     }
+    .hero-card:hover { transform: translateY(-5px); }
 
-    /* 鼠标悬停时的上浮发光效果 */
-    .photo-item:hover {
-        transform: translateY(-5px); 
-        border-color: #4A90E2; 
-        color: #4A90E2;
-        box-shadow: 0 10px 20px rgba(74, 144, 226, 0.1); 
+    #dynamic-time { font-family: monospace; font-size: 1.6em; color: var(--secondary-text); margin: 0; }
+    #welcome-greeting { font-size: 3em; font-weight: 800; margin: 10px 0; letter-spacing: -2px; color: #111; line-height: 1.1; }
+    .subtitle { color: var(--secondary-text); margin: 0; font-size: 1.1em; }
+
+    /* --- 2. 挂件网格区域 (Widgets Grid) --- */
+    .widgets-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; margin-bottom: 50px; }
+    .widget-card { background-color: #ffffff; border: 1px solid #E0DBCF; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+    .section-title { font-size: 0.85em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); margin-bottom: 25px; margin-top: 0; }
+
+    /* 每日一言与音乐 */
+    .quote-content { font-family: serif; font-size: 1.3em; color: #333; line-height: 1.6; font-style: italic; margin-bottom: 15px; }
+    .quote-author { text-align: right; color: var(--secondary-text); font-size: 0.9em; }
+
+    /* 日历模拟 */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; font-size: 0.9em; }
+    .day-name { color: #888; font-weight: bold; font-size: 0.8em; }
+    .today { background-color: var(--accent-color); color: white; border-radius: 50%; width: 30px; height: 30px; line-height: 30px; margin: 0 auto; }
+
+    /* --- 3. 列表区域 --- */
+    .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .list-header h2 { font-size: 1.8em; margin: 0; color: #111; }
+    .view-all { color: var(--accent-color); text-decoration: none; font-size: 0.9em; }
+
+    .article-card {
+        background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #E0DBCF;
+        transition: all 0.2s; text-decoration: none; color: inherit; display: block; margin-bottom: 20px;
     }
+    .article-card:hover { border-color: var(--accent-color); transform: scale(1.01); }
+    .post-date { color: #888; font-size: 0.85em; font-family: monospace; }
+    .post-title { font-size: 1.2em; font-weight: bold; color: #111; margin: 5px 0; }
 
-    /* 物理高度强制锁定（防止塌陷） */
-    .portrait { grid-row: span 2; height: 340px; } /* 竖图：高 */
-    .square { grid-row: span 1; height: 160px; }   /* 方图：矮 */
+    /* 摄影网格预览 */
+    .photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+    .photo-thumb { background: #F1F3F5; height: 150px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #BBB; border: 1px solid #E0DBCF; text-decoration: none; }
 
-    /* 手机端自适应变成两列 */
-    @media (max-width: 600px) {
-        .masonry-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 600px) { .widgets-grid { grid-template-columns: 1fr; } #welcome-greeting { font-size: 2.2em; } }
 </style>
 
-<div class="gallery-header">
-    <h1>Gallery</h1>
-    
-    <div class="gallery-tabs">
-        <a href="gallery.html" class="tab-btn tab-active">摄影</a>
-        <a href="#" class="tab-btn tab-inactive">专辑</a>
+<header class="hero-card">
+    <p id="dynamic-time">Loading...</p>
+    <h1 id="welcome-greeting">Welcome</h1>
+    <p class="subtitle">这里记录我的学习日记、人生领悟，和一些美好的收藏。</p>
+</header>
+
+<section class="widgets-grid">
+    <div class="widget-card">
+        <h3 class="section-title">每日一言</h3>
+        <p class="quote-content">"所谓审美，是在混乱的世界中建立秩序的本能。"</p>
+        <p class="quote-author">— JAY'S SYSTEM</p>
+        <div style="margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="//music.163.com/outchain/player?type=2&id=1901371647&auto=0&height=66"></iframe>
+        </div>
     </div>
-</div>
 
-<div class="masonry-grid">
-    <div class="photo-item portrait">Photo 1 (Portrait)</div>
-    <div class="photo-item portrait">Photo 4 (Portrait)</div>
-    <div class="photo-item portrait">Photo 7 (Portrait)</div>
+    <div class="widget-card">
+        <h3 class="section-title">日历</h3>
+        <div class="calendar-grid">
+            <div class="day-name">S</div><div class="day-name">M</div><div class="day-name">T</div><div class="day-name">W</div><div class="day-name">T</div><div class="day-name">F</div><div class="day-name">S</div>
+            <div style="color:#ccc">22</div><div style="color:#ccc">23</div><div style="color:#ccc">24</div><div style="color:#ccc">25</div><div style="color:#ccc">26</div><div style="color:#ccc">27</div>
+            <div class="today">28</div>
+        </div>
+        <p style="font-size: 0.8em; color: #999; margin-top: 15px;">Saturday, March 2026</p>
+    </div>
+</section>
 
-    <div class="photo-item square">Photo 2 (Square)</div>
-    <div class="photo-item square">Photo 5 (Square)</div>
-    <div class="photo-item square">Photo 8 (Square)</div>
-    
-    <div class="photo-item portrait">Photo 3 (Portrait)</div>
-    <div class="photo-item portrait">Photo 6 (Portrait)
+<section>
+    <div class="list-header">
+        <h2>最近文章</h2>
+        <a href="blog.html" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <a href="#" class="article-card">
+        <span class="post-date">2026-03-28</span>
+        <p class="post-title">系统重建日志：从白纸开始的勇气</p>
+    </a>
+</section>
+
+<section style="margin-top: 50px; margin-bottom: 80px;">
+    <div class="list-header">
+        <h2>近期摄影</h2>
+        <a href="gallery.html" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <div class="photos-grid">
+        <a href="gallery.html" class="photo-thumb">Photo</a>
+        <a href="gallery.html" class="photo-thumb">Photo</a>
+        <a href="gallery.html" class="photo-thumb">Photo</a>
+    </div>
+</section>
+
+<script>
+    function updateWelcome() {
+        const now = new Date();
+        const hour = now.getHours(); // 这里会基于浏览器所在时区
+        let greeting = "";
+
+        if (hour < 5) greeting = "夜深了，注意休息。";
+        else if (hour < 11) greeting = "早上好，建构者";
+        else if (hour < 13) greeting = "中午好，共振时刻";
+        else if (hour < 18) greeting = "下午好，捕获光影"; // 格拉斯哥下午16点属于这个感知
+        else greeting = "晚上好，连接数字大脑";
+
+        document.getElementById('welcome-greeting').innerText = greeting;
+        document.getElementById('dynamic-time').innerText = now.toLocaleTimeString('en-GB'); // 保持英国时间格式 HH:MM:SS
+    }
+
+    // 网页一打开就立刻执行一次
+    updateWelcome();
+    // 设置定时器，每 1000 毫秒（1秒）刷新一次时间
+    setInterval(updateWelcome, 1000);
+</script>
