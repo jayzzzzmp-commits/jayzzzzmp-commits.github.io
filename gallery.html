@@ -4,35 +4,81 @@ title: Gallery - My life
 ---
 
 <style>
-    /* --- 1. 标题与分类标签 --- */
+    /* --- 1. 头部标题 --- */
     .gallery-header { margin-bottom: 50px; }
     .gallery-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
-    .gallery-header p { color: var(--secondary-text); margin: 0; }
+    .gallery-header p { color: #666; margin: 0; }
 
+    /* 标签切换按钮 */
     .gallery-tabs { display: flex; gap: 15px; margin-top: 30px; }
     .tab-btn {
         padding: 6px 20px; border-radius: 15px; font-size: 0.9em; font-weight: 600;
-        cursor: pointer; text-decoration: none; transition: all 0.2s;
-        border: 1px solid #E0DBCF;
+        cursor: pointer; text-decoration: none; transition: all 0.2s; border: 1px solid #E0DBCF;
     }
     .tab-active { background-color: #fff; color: #111; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-    .tab-inactive { background-color: var(--navbar-bg); color: var(--secondary-text); }
+    .tab-inactive { background-color: #F1F3F5; color: #666; }
     .tab-inactive:hover { background-color: #E0DBCF; color: #111; }
 
-    /* --- 2. 核心科技：非规则瀑布流排版 (CSS Grid) --- */
+    /* --- 2. 极其稳固的瀑布流网格 --- */
     .masonry-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 完美的3列分栏 */
+        grid-template-columns: repeat(3, 1fr); /* 强制三列 */
         gap: 20px;
-        grid-auto-flow: dense; /* 紧密填充，自动补位 */
+        grid-auto-flow: dense; /* 智能填补空隙 */
         margin-top: 40px;
     }
 
+    /* 绝对防弹的占位卡片 */
     .photo-item {
-        background-color: #fbfbf7; 
+        background-color: #F8F9FA; /* 极简浅灰色块 */
         border: 1px solid #E0DBCF;
         border-radius: 16px;
-        overflow: hidden; 
-        display: flex; align-items: center; justify-content: center;
-        color: #999; font-style: italic; font-family: serif;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        color: #888; 
+        font-family: monospace; /* 程序员字体，更有极客感 */
+        font-size: 1.1em;
         transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+
+    /* 鼠标悬停时的上浮发光效果 */
+    .photo-item:hover {
+        transform: translateY(-5px); 
+        border-color: #4A90E2; 
+        color: #4A90E2;
+        box-shadow: 0 10px 20px rgba(74, 144, 226, 0.1); 
+    }
+
+    /* 物理高度强制锁定（防止塌陷） */
+    .portrait { grid-row: span 2; height: 340px; } /* 竖图：高 */
+    .square { grid-row: span 1; height: 160px; }   /* 方图：矮 */
+
+    /* 手机端自适应变成两列 */
+    @media (max-width: 600px) {
+        .masonry-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
+
+<div class="gallery-header">
+    <h1>Gallery</h1>
+    <p>收藏光影与旋律。 (声色存档协议)</p>
+    
+    <div class="gallery-tabs">
+        <a href="gallery.html" class="tab-btn tab-active">摄影</a>
+        <a href="#" class="tab-btn tab-inactive">专辑</a>
+    </div>
+</div>
+
+<div class="masonry-grid">
+    <div class="photo-item portrait">Photo 1 (Portrait)</div>
+    <div class="photo-item portrait">Photo 4 (Portrait)</div>
+    <div class="photo-item portrait">Photo 7 (Portrait)</div>
+
+    <div class="photo-item square">Photo 2 (Square)</div>
+    <div class="photo-item square">Photo 5 (Square)</div>
+    <div class="photo-item square">Photo 8 (Square)</div>
+    
+    <div class="photo-item portrait">Photo 3 (Portrait)</div>
+    <div class="photo-item portrait">Photo 6 (Portrait)
