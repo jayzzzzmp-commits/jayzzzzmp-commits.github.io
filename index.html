@@ -29,6 +29,11 @@ title: Home - My Life
     .quote-content { font-family: serif; font-size: 1.3em; color: #333; line-height: 1.6; font-style: italic; margin-bottom: 15px; }
     .quote-author { text-align: right; color: var(--secondary-text); font-size: 0.9em; }
 
+    /* 日历模拟 */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; font-size: 0.9em; }
+    .day-name { color: #888; font-weight: bold; font-size: 0.8em; }
+    .today { background-color: var(--accent-color); color: white; border-radius: 50%; width: 30px; height: 30px; line-height: 30px; margin: 0 auto; }
+
     /* --- 3. 列表区域 --- */
     .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
     .list-header h2 { font-size: 1.8em; margin: 0; color: #111; }
@@ -42,6 +47,11 @@ title: Home - My Life
     .post-date { color: #888; font-size: 0.85em; font-family: monospace; }
     .post-title { font-size: 1.2em; font-weight: bold; color: #111; margin: 5px 0; }
 
+    /* 摄影网格预览 */
+    .photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+    .photo-thumb { background: #F1F3F5; height: 150px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #BBB; border: 1px solid #E0DBCF; text-decoration: none; }
+
+    @media (max-width: 600px) { .widgets-grid { grid-template-columns: 1fr; } #welcome-greeting { font-size: 2.2em; } }
 </style>
 
 <header class="hero-card">
@@ -54,6 +64,59 @@ title: Home - My Life
     <div class="widget-card">
         <h3 class="section-title">每日一言</h3>
         <p class="quote-content">"所谓审美，是在混乱的世界中建立秩序的本能。"</p>
-        <p class="quote-author">— </p>
+        <p class="quote-author">— JAY'S SYSTEM</p>
         <div style="margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
-            <iframe frameborder="no" border="0" marginwidth="0"
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="//music.163.com/outchain/player?type=2&id=1901371647&auto=0&height=66"></iframe>
+        </div>
+    </div>
+
+    <div class="widget-card">
+        <h3 class="section-title">日历</h3>
+        <div class="calendar-grid">
+            <div class="day-name">S</div><div class="day-name">M</div><div class="day-name">T</div><div class="day-name">W</div><div class="day-name">T</div><div class="day-name">F</div><div class="day-name">S</div>
+            <div style="color:#ccc">22</div><div style="color:#ccc">23</div><div style="color:#ccc">24</div><div style="color:#ccc">25</div><div style="color:#ccc">26</div><div style="color:#ccc">27</div>
+            <div class="today">28</div>
+        </div>
+        <p style="font-size: 0.8em; color: #999; margin-top: 15px;">Saturday, March 2026</p>
+    </div>
+</section>
+
+<section>
+    <div class="list-header">
+        <h2>最近文章</h2>
+        <a href="blog.html" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <a href="#" class="article-card">
+        <span class="post-date">2026-03-28</span>
+        <p class="post-title">系统重建日志：从白纸开始的勇气</p>
+    </a>
+</section>
+
+<section style="margin-top: 50px; margin-bottom: 80px;">
+    <div class="list-header">
+        <h2>近期摄影</h2>
+        <a href="gallery.html" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <div class="photos-grid">
+        <a href="gallery.html" class="photo-thumb">Photo</a>
+        <a href="gallery.html" class="photo-thumb">Photo</a>
+        <a href="gallery.html" class="photo-thumb">Photo</a>
+    </div>
+</section>
+
+<script>
+    function updateWelcome() {
+        const now = new Date();
+        const hour = now.getHours();
+        let greeting = "";
+        if (hour < 5) greeting = "夜深了，注意休息。";
+        else if (hour < 11) greeting = "早上好，建构者";
+        else if (hour < 13) greeting = "中午好，共振时刻";
+        else if (hour < 18) greeting = "下午好，捕获光影";
+        else greeting = "晚上好，连接数字大脑";
+        document.getElementById('welcome-greeting').innerText = greeting;
+        document.getElementById('dynamic-time').innerText = now.toLocaleTimeString('en-GB');
+    }
+    updateWelcome();
+    setInterval(updateWelcome, 1000);
+</script>
