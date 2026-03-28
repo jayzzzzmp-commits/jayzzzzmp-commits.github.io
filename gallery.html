@@ -1,127 +1,247 @@
 ---
 layout: default
-title: Home - My Life
+title: Gallery - My life
 ---
 
 <style>
-    /* --- 1. 英雄欢迎卡 (Hero Section) --- */
-    .hero-card {
-        background-color: #ffffff;
+    /* --- 1. 标题标签页 --- */
+    .gallery-header { margin-bottom: 50px; }
+    .gallery-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
+    .gallery-header p { color: var(--secondary-text); margin: 0; }
+
+    /* 标签按钮更像 iOS Segmented Control */
+    .gallery-tabs {
+        display: flex;
+        background-color: #f1f3f5;
+        border-radius: 12px;
+        padding: 4px;
+        max-width: fit-content;
+        margin-top: 30px;
+    }
+    .tab-btn {
+        padding: 8px 24px;
+        border-radius: 10px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.1, 0.7, 0.1, 1); /* iOS 缓动曲线 */
+        color: var(--secondary-text);
+        font-size: 0.9em;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .tab-btn.tab-active {
+        background-color: #fff;
+        color: #111;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* --- 2. 核心科技：非规则瀑布流排版通用样式 (image_10.png 质感) --- */
+    .masonry-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 完美的3列分栏 */
+        gap: 20px;
+        grid-auto-flow: dense; /* 紧密填充，自动补位 */
+    }
+
+    .photo-item {
+        background-color: #fbfbf7; 
         border: 1px solid #E0DBCF;
-        border-radius: 20px;
-        padding: 50px 40px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
-        margin-bottom: 30px;
-        transition: all 0.3s;
+        border-radius: 16px;
+        overflow: hidden; 
+        display: flex; align-items: center; justify-content: center;
+        color: #999; font-style: italic; font-family: serif;
+        transition: all 0.3s ease;
+        cursor: pointer; 
+        position: relative;
     }
-    .hero-card:hover { transform: translateY(-5px); }
 
-    #dynamic-time { font-family: monospace; font-size: 1.6em; color: var(--secondary-text); margin: 0; }
-    #welcome-greeting { font-size: 3em; font-weight: 800; margin: 10px 0; letter-spacing: -2px; color: #111; line-height: 1.1; }
-    .subtitle { color: var(--secondary-text); margin: 0; font-size: 1.1em; }
-
-    /* --- 2. 挂件网格区域 (Widgets Grid) --- */
-    .widgets-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; margin-bottom: 50px; }
-    .widget-card { background-color: #ffffff; border: 1px solid #E0DBCF; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
-    .section-title { font-size: 0.85em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); margin-bottom: 25px; margin-top: 0; }
-
-    /* 每日一言与音乐 */
-    .quote-content { font-family: serif; font-size: 1.3em; color: #333; line-height: 1.6; font-style: italic; margin-bottom: 15px; }
-    .quote-author { text-align: right; color: var(--secondary-text); font-size: 0.9em; }
-
-    /* 日历模拟 */
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; font-size: 0.9em; }
-    .day-name { color: #888; font-weight: bold; font-size: 0.8em; }
-    .today { background-color: var(--accent-color); color: white; border-radius: 50%; width: 30px; height: 30px; line-height: 30px; margin: 0 auto; }
-
-    /* --- 3. 列表区域 --- */
-    .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-    .list-header h2 { font-size: 1.8em; margin: 0; color: #111; }
-    .view-all { color: var(--accent-color); text-decoration: none; font-size: 0.9em; }
-
-    .article-card {
-        background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #E0DBCF;
-        transition: all 0.2s; text-decoration: none; color: inherit; display: block; margin-bottom: 20px;
+    /* 悬停时的物理级反馈 */
+    .photo-item:hover {
+        transform: translateY(-3px); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
+        border-color: var(--accent-color); 
     }
-    .article-card:hover { border-color: var(--accent-color); transform: scale(1.01); }
-    .post-date { color: #888; font-size: 0.85em; font-family: monospace; }
-    .post-title { font-size: 1.2em; font-weight: bold; color: #111; margin: 5px 0; }
 
-    /* 摄影网格预览 */
-    .photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-    .photo-thumb { background: #F1F3F5; height: 150px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #BBB; border: 1px solid #E0DBCF; text-decoration: none; }
+    /* 真正的摄影作品链接（将来在这里替换图片路径） */
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; }
 
-    @media (max-width: 600px) { .widgets-grid { grid-template-columns: 1fr; } #welcome-greeting { font-size: 2.2em; } }
+    /* 占位符文字（当没有图片时显示） */
+    .photo-placeholder-text { position: absolute; pointer-events: none; }
+
+    /* portrait (长方形卡片) */
+    .portrait { grid-row: span 2; height: 320px; } /* 跨2行 */
+    /* square (正方形卡片) */
+    .square { grid-row: span 1; height: 160px; }   /* 跨1行 */
+
+    /* --- 3. iOS 风格过度感容器 --- */
+    /* 物理层：包裹两个 Pane 的视窗，开启隐藏溢出 */
+    .gallery-wrapper {
+        overflow: hidden; 
+        margin-top: 40px;
+    }
+
+    /* 发动引擎：将两个 Pane 水平排列，宽度为 200% */
+    .gallery-wrapper-inner {
+        display: flex;
+        width: 200%; 
+        transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); /* iOS 风格缓动 */
+    }
+
+    /* 单个 Pane 容器，占视窗的 100% */
+    .gallery-pane {
+        width: 50%; /* 每个 Pane 占父容器的 50%，即视窗的 100% */
+        transition: opacity 0.4s ease; /* 可选的淡入淡出 */
+        opacity: 0.8; /* 默认轻微透明 */
+    }
+    .gallery-pane.active {
+        opacity: 1; /* 激活时全透明 */
+    }
+
+    /* --- 4. 模拟的专辑网格分布 (为了演示 dense) --- */
+    /* 专辑网格：使第一列和第三列主要由 Square 组成，第二列由 Portrait 组成 */
+    #pane-album .photo-item.square { grid-column: span 1; grid-row: span 1; }
+    #pane-album .photo-item.portrait { grid-column: span 1; grid-row: span 2; }
+
+    /* --- 5. 灯箱 (Lightbox) 全屏覆盖层 --- */
+    .lightbox {
+        display: none; 
+        position: fixed; z-index: 1000; top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.85); 
+        backdrop-filter: blur(5px); 
+        justify-content: center; align-items: center;
+    }
+    .close-lightbox {
+        position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s;
+    }
+    .close-lightbox:hover { color: #bbb; }
+    .lightbox-content {
+        margin: auto; display: block; max-width: 90%; max-height: 90%; animation: zoomIn 0.3s; 
+    }
+    @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* 自适应：在手机端将瀑布流变成2列 */
+    @media (max-width: 600px) {
+        .gallery-header h1 { font-size: 2.2em; }
+        .masonry-grid { grid-template-columns: repeat(2, 1fr); }
+    }
 </style>
 
-<header class="hero-card">
-    <p id="dynamic-time">Loading...</p>
-    <h1 id="welcome-greeting">Welcome</h1>
-    <p class="subtitle">这里记录我的学习日记、人生领悟，和一些美好的收藏。</p>
-</header>
+<div class="gallery-header">
+    <h1>Gallery</h1>
+    <p>收藏光影与旋律。 (声色存档协议)</p>
+    
+    <div class="gallery-tabs">
+        <a href="gallery.html" class="tab-btn tab-active">摄影</a>
+        <a href="#" class="tab-btn tab-inactive">专辑</a>
+    </div>
+</div>
 
-<section class="widgets-grid">
-    <div class="widget-card">
-        <h3 class="section-title">每日一言</h3>
-        <p class="quote-content">"所谓审美，是在混乱的世界中建立秩序的本能。"</p>
-        <p class="quote-author">— JAY'S SYSTEM</p>
-        <div style="margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="//music.163.com/outchain/player?type=2&id=1901371647&auto=0&height=66"></iframe>
+<div class="gallery-wrapper">
+    <div class="gallery-wrapper-inner" id="gallery-inner">
+        
+        <div class="gallery-pane active" id="pane-photography">
+            <div class="masonry-grid">
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 1 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 4 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 7 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+
+                <div class="photo-item square"><span class="photo-placeholder-text">Photo 2 (Square)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Photo 5 (Square)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Photo 8 (Square)</span><img src="" alt="" style="opacity:0;"></div>
+                
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 3 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 6 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Photo 9 (Portrait)</span><img src="" alt="" style="opacity:0;"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="widget-card">
-        <h3 class="section-title">日历</h3>
-        <div class="calendar-grid">
-            <div class="day-name">S</div><div class="day-name">M</div><div class="day-name">T</div><div class="day-name">W</div><div class="day-name">T</div><div class="day-name">F</div><div class="day-name">S</div>
-            <div style="color:#ccc">22</div><div style="color:#ccc">23</div><div style="color:#ccc">24</div><div style="color:#ccc">25</div><div style="color:#ccc">26</div><div style="color:#ccc">27</div>
-            <div class="today">28</div>
+        <div class="gallery-pane" id="pane-album">
+            <div class="masonry-grid">
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 1 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 4 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 7 (P)</span><img src="" alt="" style="opacity:0;"></div>
+
+                <div class="photo-item square"><span class="photo-placeholder-text">Album 2 (S)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Album 5 (S)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item square"><span class="photo-placeholder-text">Album 8 (S)</span><img src="" alt="" style="opacity:0;"></div>
+                
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 3 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 6 (P)</span><img src="" alt="" style="opacity:0;"></div>
+                <div class="photo-item portrait"><span class="photo-placeholder-text">Album 9 (P)</span><img src="" alt="" style="opacity:0;"></div>
+            </div>
         </div>
-        <p style="font-size: 0.8em; color: #999; margin-top: 15px;">Saturday, March 2026</p>
-    </div>
-</section>
 
-<section>
-    <div class="list-header">
-        <h2>最近文章</h2>
-        <a href="blog.html" class="view-all">查看全部 &rarr;</a>
     </div>
-    <a href="#" class="article-card">
-        <span class="post-date">2026-03-28</span>
-        <p class="post-title">系统重建日志：从白纸开始的勇气</p>
-    </a>
-</section>
+</div>
 
-<section style="margin-top: 50px; margin-bottom: 80px;">
-    <div class="list-header">
-        <h2>近期摄影</h2>
-        <a href="gallery.html" class="view-all">查看全部 &rarr;</a>
-    </div>
-    <div class="photos-grid">
-        <a href="gallery.html" class="photo-thumb">Photo</a>
-        <a href="gallery.html" class="photo-thumb">Photo</a>
-        <a href="gallery.html" class="photo-thumb">Photo</a>
-    </div>
-</section>
+<div id="lightbox" class="lightbox">
+    <span class="close-lightbox" id="close-lightbox">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+</div>
+
 
 <script>
-    function updateWelcome() {
-        const now = new Date();
-        const hour = now.getHours(); // 这里会基于浏览器所在时区
-        let greeting = "";
+    const wrapperInner = document.getElementById('gallery-inner');
+    const photographyPane = document.getElementById('pane-photography');
+    const albumPane = document.getElementById('pane-album');
+    const grids = document.querySelectorAll('.masonry-grid'); // 获取所有网格
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('close-lightbox');
 
-        if (hour < 5) greeting = "夜深了，注意休息。";
-        else if (hour < 11) greeting = "早上好，建构者";
-        else if (hour < 13) greeting = "中午好，共振时刻";
-        else if (hour < 18) greeting = "下午好，捕获光影"; // 格拉斯哥下午16点属于这个感知
-        else greeting = "晚上好，连接数字大脑";
+    grids.forEach(grid => { // 为每个网格添加事件监听器
+        grid.addEventListener('click', function(e) {
+            const item = e.target.closest('.photo-item');
+            if (!item) return;
+            const img = item.querySelector('img');
+            // 只有当图片真正有链接时才触发放大
+            if (img && img.src && img.src !== window.location.href) {
+                lightboxImg.src = img.src;
+                lightbox.style.display = 'flex';
+            }
+        });
+    });
 
-        document.getElementById('welcome-greeting').innerText = greeting;
-        document.getElementById('dynamic-time').innerText = now.toLocaleTimeString('en-GB'); // 保持英国时间格式 HH:MM:SS
-    }
+    // 关闭灯箱的逻辑
+    function closeLightbox() { lightbox.style.display = 'none'; }
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    // 点击灯箱外部也可关闭
+    lightbox.addEventListener('click', function(e) {
+        if (e.target !== lightboxImg) closeLightbox();
+    });
 
-    // 网页一打开就立刻执行一次
-    updateWelcome();
-    // 设置定时器，每 1000 毫秒（1秒）刷新一次时间
-    setInterval(updateWelcome, 1000);
+    // ================= iOS 风格滑动过度逻辑 =================
+    const tabGroup = document.querySelector('.gallery-tabs');
+    tabGroup.addEventListener('click', function(e) {
+        const clickedBtn = e.target.closest('.tab-btn');
+        if (!clickedBtn) return;
+        e.preventDefault();
+
+        // 1. 更新按钮状态
+        tabGroup.querySelector('.tab-active').classList.remove('tab-active');
+        tabGroup.querySelector('.tab-inactive').classList.add('tab-inactive'); // 暂时移除inactive类以便演示
+
+        clickedBtn.classList.remove('tab-inactive');
+        clickedBtn.classList.add('tab-active');
+
+        // 为了演示，让其他按钮变 inactive
+        tabGroup.querySelectorAll('.tab-btn:not(.tab-active)').forEach(btn => {
+            btn.classList.add('tab-inactive');
+        });
+
+        // 2. 物理穿梭：实现滑动过度感
+        const isAlbum = clickedBtn.innerText.includes('专辑');
+        if (isAlbum) {
+            wrapperInner.style.transform = 'translateX(-50%)'; // 滑动到专辑 Pane
+            photographyPane.classList.remove('active');
+            albumPane.classList.add('active');
+        } else {
+            wrapperInner.style.transform = 'translateX(0%)'; // 滑动回摄影 Pane
+            albumPane.classList.remove('active');
+            photographyPane.classList.add('active');
+        }
+    });
 </script>
