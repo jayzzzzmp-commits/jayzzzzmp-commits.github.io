@@ -1,1 +1,38 @@
+---
+layout: default
+title: Gallery - My life
+---
 
+<style>
+    /* --- 1. 标题与分类标签 --- */
+    .gallery-header { margin-bottom: 50px; }
+    .gallery-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
+    .gallery-header p { color: var(--secondary-text); margin: 0; }
+
+    .gallery-tabs { display: flex; gap: 15px; margin-top: 30px; }
+    .tab-btn {
+        padding: 6px 20px; border-radius: 15px; font-size: 0.9em; font-weight: 600;
+        cursor: pointer; text-decoration: none; transition: all 0.2s;
+        border: 1px solid #E0DBCF;
+    }
+    .tab-active { background-color: #fff; color: #111; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+    .tab-inactive { background-color: var(--navbar-bg); color: var(--secondary-text); }
+    .tab-inactive:hover { background-color: #E0DBCF; color: #111; }
+
+    /* --- 2. 核心科技：非规则瀑布流排版 (CSS Grid) --- */
+    .masonry-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 完美的3列分栏 */
+        gap: 20px;
+        grid-auto-flow: dense; /* 紧密填充，自动补位 */
+        margin-top: 40px;
+    }
+
+    .photo-item {
+        background-color: #fbfbf7; 
+        border: 1px solid #E0DBCF;
+        border-radius: 16px;
+        overflow: hidden; 
+        display: flex; align-items: center; justify-content: center;
+        color: #999; font-style: italic; font-family: serif;
+        transition: all 0.3s ease;
