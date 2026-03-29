@@ -9,24 +9,46 @@ title: Blog - My life
     .blog-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
     .blog-header p { color: var(--secondary-text); margin: 0; font-size: 1.1em; }
 
-    /* 极简标签系统 */
+    /* 极简标签筛选按钮 (image_2.png 质感) */
     .blog-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 50px; }
+    
+    /* 这里是筛选按钮的物理状态 */
     .filter-tag {
         background-color: #fff; border: 1px solid #E0DBCF; padding: 6px 18px;
         border-radius: 20px; font-size: 0.9em; font-weight: 600; color: #666;
-        text-decoration: none; transition: all 0.2s;
+        text-decoration: none; cursor: pointer; transition: all 0.2s;
     }
-    .filter-tag:hover, .filter-tag.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+    .filter-tag:hover { border-color: var(--accent-color); color: var(--accent-color); }
+    
+    /* 核心科技：被激活状态的物理上浮与高亮 */
+    .filter-tag.active {
+        background-color: var(--accent-color); color: #fff; border-color: var(--accent-color);
+        box-shadow: 0 4px 10px rgba(74, 144, 226, 0.2); transform: translateY(-1px);
+    }
 
-    /* --- 2. 文章卡片流 --- */
+    /* --- 2. 自动化文章流容器 ( image_1.png 质感保持) --- */
     .blog-list { display: flex; flex-direction: column; gap: 25px; }
 
+    /* 每一个文章卡片实体 (注入了过渡动画，实现平滑筛选) */
     .blog-card {
         background-color: #ffffff; border: 1px solid #E0DBCF; border-radius: 16px;
         padding: 35px 40px; text-decoration: none; color: inherit; display: block;
-        transition: all 0.3s ease; position: relative; overflow: hidden;
+        
+        /* 神经逻辑：默认状态开启平滑淡入淡出 */
+        transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s, opacity 0.3s ease; 
+        position: relative; overflow: hidden;
+        opacity: 1;  /* 默认全透明 */
+        transform: translateY(0); /* 默认不移动 */
     }
     .blog-card:hover { transform: translateY(-4px); border-color: var(--accent-color); box-shadow: 0 10px 30px rgba(74, 144, 226, 0.08); }
+
+    /* 核心逻辑：被筛选掉的文章将应用“物理塌陷与透明” */
+    .blog-card.is-hidden {
+        opacity: 0;         /* 变为透明 */
+        transform: translateY(20px); /* 向下浮动 */
+        pointer-events: none; /* 禁用点击 */
+        display: none !important; /* 物理移除布局（防止占位） */
+    }
 
     .post-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
     .post-date { font-family: monospace; color: #888; font-size: 0.9em; letter-spacing: 0.5px; }
@@ -49,18 +71,18 @@ title: Blog - My life
     <p>思考、解构与输出的数字存档。</p>
 </div>
 
-<div class="blog-filters">
-    <a href="#" class="filter-tag active">All Posts</a>
-    <a href="#" class="filter-tag">Study Notes</a>
-    <a href="#" class="filter-tag">Life Log</a>
-    <a href="#" class="filter-tag">Tech & Build</a>
-    <a href="#" class="filter-tag">Aesthetics</a>
+<div class="blog-filters" id="blog-filters">
+    <a class="filter-tag active" data-category="all">All Posts</a>
+    <a class="filter-tag" data-category="Study Notes">Study Notes</a>
+    <a class="filter-tag" data-category="Life Log">Life Log</a>
+    <a class="filter-tag" data-category="Tech & Build">Tech & Build</a>
+    <a class="filter-tag" data-category="Aesthetics">Aesthetics</a>
 </div>
 
-<div class="blog-list">
+<div class="blog-list" id="blog-list">
     
     {% for post in site.posts %}
-    <a href="{{ post.url | relative_url }}" class="blog-card">
+    <a href="{{ post.url | relative_url }}" class="blog-card" data-post-category="{{ post.category }}">
         <div class="post-meta">
             <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
             {% if post.category %}
@@ -74,3 +96,39 @@ title: Blog - My life
     {% endfor %}
 
 </div>
+
+<script>
+    const filters = document.getElementById('blog-filters');
+    const postsList = document.getElementById('blog-list');
+    const posts = postsList.getElementsByClassName('blog-card'); // 获取所有的文章卡片
+
+    // 为筛选器矩阵绑定点击事件监听器
+    filters.addEventListener('click', function(e) {
+        // 疏通物理层：寻找点击的 filter-tag 实体
+        const clickedTag = e.target.closest('.filter-tag');
+        if (!clickedTag) return;
+        
+        e.preventDefault();
+
+        // 1. 更新按钮状态矩阵
+        filters.querySelector('.active').classList.remove('active'); // 移除旧的 active
+        clickedTag.classList.add('active'); // 为新的按钮注入 active，使其上浮发光
+
+        // 2. 核心神经逻辑：执行分类筛选
+        const currentCategory = clickedTag.getAttribute('data-category'); // 获取用户想看的分类
+
+        // 遍历所有的文章卡片进行物理属性对比
+        for (let post of posts) {
+            const postCategory = post.getAttribute('data-post-category'); // 获取这篇文章自己的分类
+
+            // 逻辑门判断
+            if (currentCategory === 'all' || currentCategory === postCategory) {
+                // 如果是“All”或者分类完美对齐：激活、上浮、显示
+                post.classList.remove('is-hidden'); 
+            } else {
+                // 如果不匹配：隐藏、塌陷、透明
+                post.classList.add('is-hidden'); 
+            }
+        }
+    });
+</script>
