@@ -25,20 +25,42 @@ title: Gallery - My life
     }
     .tab-btn.tab-active { background-color: #fff; color: #111; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-    /* --- 2. 核心科技：非规则瀑布流排版 (image_4.png 摄影质感保持) --- */
-    .masonry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; grid-auto-flow: dense; }
-
-    .photo-item {
-        background-color: #fbfbf7; border: 1px solid #E0DBCF; border-radius: 16px;
-        overflow: hidden; display: flex; align-items: center; justify-content: center;
-        color: #999; font-style: italic; font-family: serif; transition: all 0.3s ease;
-        cursor: pointer; position: relative;
+  /* --- 2. 核心科技：真正的自适应原生瀑布流 (Pinterest Style) --- */
+    .true-masonry {
+        column-count: 3; /* 强制分为 3 列 */
+        column-gap: 20px; /* 列之间的间距 */
+        margin-top: 10px;
     }
-    .photo-item:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-color: var(--accent-color); }
-    .photo-item img { width: 100%; height: 100%; object-fit: cover; }
-    .photo-placeholder-text { position: absolute; pointer-events: none; }
-    .portrait { grid-row: span 2; height: 320px; } 
-    .square { grid-row: span 1; height: 160px; }   
+
+    .fluid-photo {
+        break-inside: avoid; /* 绝对防御：防止一张照片被强行切到下一列 */
+        margin-bottom: 20px; /* 上下照片的间距 */
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #E0DBCF;
+        background-color: #fbfbf7;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .fluid-photo:hover {
+        transform: translateY(-3px); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
+        border-color: var(--accent-color); 
+    }
+
+    /* 核心突破口：高度解绑！让图片自己撑开画框 */
+    .fluid-photo img {
+        width: 100%; 
+        height: auto; /* 高度设为 auto，完美保留你的原图比例！ */
+        display: block;
+    }
+    
+    /* 手机端自适应变成两列 */
+    @media (max-width: 600px) {
+        .true-masonry { column-count: 2; }
+    }
 
     /* ===============================================================
        ================= 核心升级：精致专辑网格 (image_8.png 格式) =================
