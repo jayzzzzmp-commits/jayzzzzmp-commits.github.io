@@ -5,131 +5,43 @@ title: Blog - My life
 
 <style>
     /* --- 1. 博客头部与筛选器 --- */
-    .blog-header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-    .blog-header h1 {
-        font-size: 2.8em;
-        margin-bottom: 10px;
-        color: #111;
-        letter-spacing: -1px;
-    }
-    .blog-header p {
-        color: var(--secondary-text);
-        margin: 0;
-        font-size: 1.1em;
-    }
+    .blog-header { text-align: center; margin-bottom: 40px; }
+    .blog-header h1 { font-size: 2.8em; margin-bottom: 10px; color: #111; letter-spacing: -1px; }
+    .blog-header p { color: var(--secondary-text); margin: 0; font-size: 1.1em; }
 
     /* 极简标签系统 */
-    .blog-filters {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 50px;
-    }
+    .blog-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 50px; }
     .filter-tag {
-        background-color: #fff;
-        border: 1px solid #E0DBCF;
-        padding: 6px 18px;
-        border-radius: 20px;
-        font-size: 0.9em;
-        font-weight: 600;
-        color: #666;
-        text-decoration: none;
-        transition: all 0.2s;
+        background-color: #fff; border: 1px solid #E0DBCF; padding: 6px 18px;
+        border-radius: 20px; font-size: 0.9em; font-weight: 600; color: #666;
+        text-decoration: none; transition: all 0.2s;
     }
-    .filter-tag:hover, .filter-tag.active {
-        background-color: var(--accent-color);
-        color: #fff;
-        border-color: var(--accent-color);
-    }
+    .filter-tag:hover, .filter-tag.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
 
     /* --- 2. 文章卡片流 --- */
-    .blog-list {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-    }
+    .blog-list { display: flex; flex-direction: column; gap: 25px; }
 
     .blog-card {
-        background-color: #ffffff;
-        border: 1px solid #E0DBCF;
-        border-radius: 16px;
-        padding: 35px 40px;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+        background-color: #ffffff; border: 1px solid #E0DBCF; border-radius: 16px;
+        padding: 35px 40px; text-decoration: none; color: inherit; display: block;
+        transition: all 0.3s ease; position: relative; overflow: hidden;
     }
+    .blog-card:hover { transform: translateY(-4px); border-color: var(--accent-color); box-shadow: 0 10px 30px rgba(74, 144, 226, 0.08); }
 
-    /* 悬浮时的呼吸感 */
-    .blog-card:hover {
-        transform: translateY(-4px);
-        border-color: var(--accent-color);
-        box-shadow: 0 10px 30px rgba(74, 144, 226, 0.08);
-    }
-
-    /* 卡片内部排版 */
-    .post-meta {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-    .post-date {
-        font-family: monospace;
-        color: #888;
-        font-size: 0.9em;
-        letter-spacing: 0.5px;
-    }
+    .post-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+    .post-date { font-family: monospace; color: #888; font-size: 0.9em; letter-spacing: 0.5px; }
     .post-category {
-        background-color: #F1F3F5;
-        color: #555;
-        font-size: 0.75em;
-        font-weight: 700;
-        padding: 4px 10px;
-        border-radius: 6px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        background-color: #F1F3F5; color: #555; font-size: 0.75em; font-weight: 700;
+        padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px;
     }
 
-    .post-title {
-        font-size: 1.6em;
-        font-weight: 800;
-        color: #111;
-        margin: 0 0 15px 0;
-        line-height: 1.3;
-    }
-    
-    .post-excerpt {
-        color: var(--secondary-text);
-        line-height: 1.7;
-        margin: 0 0 20px 0;
-        font-size: 1.05em;
-    }
+    .post-title { font-size: 1.6em; font-weight: 800; color: #111; margin: 0 0 15px 0; line-height: 1.3; }
+    .post-excerpt { color: var(--secondary-text); line-height: 1.7; margin: 0 0 20px 0; font-size: 1.05em; }
 
-    .read-more {
-        color: var(--accent-color);
-        font-weight: 600;
-        font-size: 0.95em;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .blog-card:hover .read-more {
-        text-decoration: underline;
-    }
+    .read-more { color: var(--accent-color); font-weight: 600; font-size: 0.95em; display: flex; align-items: center; gap: 5px; }
+    .blog-card:hover .read-more { text-decoration: underline; }
 
-    /* 手机端自适应 */
-    @media (max-width: 600px) {
-        .blog-card { padding: 25px; }
-        .post-title { font-size: 1.4em; }
-    }
+    @media (max-width: 600px) { .blog-card { padding: 25px; } .post-title { font-size: 1.4em; } }
 </style>
 
 <div class="blog-header">
@@ -142,38 +54,23 @@ title: Blog - My life
     <a href="#" class="filter-tag">Study Notes</a>
     <a href="#" class="filter-tag">Life Log</a>
     <a href="#" class="filter-tag">Tech & Build</a>
+    <a href="#" class="filter-tag">Aesthetics</a>
 </div>
 
 <div class="blog-list">
     
-    <a href="#" class="blog-card">
+    {% for post in site.posts %}
+    <a href="{{ post.url | relative_url }}" class="blog-card">
         <div class="post-meta">
-            <span class="post-date">2026-03-29</span>
-            <span class="post-category">Life Log</span> 
+            <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+            {% if post.category %}
+            <span class="post-category">{{ post.category }}</span>
+            {% endif %}
         </div>
-        <h2 class="post-title">格拉斯哥的雨：我的第一篇日常随想</h2>
-        <p class="post-excerpt">这里写一点文章开头的前言或者摘要。记录今天在格拉斯哥发生的事情...</p>
+        <h2 class="post-title">{{ post.title }}</h2>
+        <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
         <span class="read-more">Read output &rarr;</span>
     </a>
-
-    <a href="#" class="blog-card">
-        <div class="post-meta">
-            <span class="post-date">2026-03-15</span>
-            <span class="post-category">Life Log</span>
-        </div>
-        <h2 class="post-title">格拉斯哥的雨与数字秩序</h2>
-        <p class="post-excerpt">在这座经常下雨的苏格兰城市里，物理世界往往显得阴郁且充满不确定性。但这也是为什么我痴迷于在屏幕内建立完美对称的数字逻辑，这是一种对抗混沌的本能...</p>
-        <span class="read-more">Read output &rarr;</span>
-    </a>
-
-    <a href="#" class="blog-card">
-        <div class="post-meta">
-            <span class="post-date">2026-02-28</span>
-            <span class="post-category">Aesthetics</span>
-        </div>
-        <h2 class="post-title">关于极简主义：少即是多</h2>
-        <p class="post-excerpt">真正的极简并不是简单地删除元素，而是给重要的内容留下呼吸的空间。探究如何在网页设计中运用黄金分割比例和留白艺术。</p>
-        <span class="read-more">Read output &rarr;</span>
-    </a>
+    {% endfor %}
 
 </div>
