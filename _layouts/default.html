@@ -37,18 +37,19 @@
 <body>
 
     <nav class="navbar">
-        <a href="index.html" class="nav-brand">My life</a>
+        <a href="{{ '/' | relative_url }}" class="nav-brand">My life</a>
         <div class="nav-links">
-           <a href="/index.html">Home</a>
-           <a href="/blog.html">Blog</a>
-           <a href="/gallery.html">Gallery</a>
-           <a href="/resume.html">Resume</a>
-            <a href="contact.html" class="btn-contact">Get in touch</a>
+           <a href="{{ '/' | relative_url }}">Home</a>
+           <a href="{{ '/blog.html' | relative_url }}">Blog</a>
+           <a href="{{ '/gallery.html' | relative_url }}">Gallery</a>
+           <a href="{{ '/resume.html' | relative_url }}">Resume</a>
+           <a href="{{ '/contact.html' | relative_url }}" class="btn-contact">Get in touch</a>
         </div>
     </nav>
 
     <main class="content">
-        {{ content }} </main>
+        {{ content }} 
+    </main>
 
 </body>
 </html>
