@@ -3,6 +3,7 @@ layout: default
 title: "系统重建：我的第一篇真·博客文章"
 date: 2026-03-29
 category: Tech & Build
+permalink: /blog/first-post.html
 ---
 
 ### 欢迎来到我的数字大脑
