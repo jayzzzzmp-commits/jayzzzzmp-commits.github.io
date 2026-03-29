@@ -256,24 +256,19 @@ title: Gallery - My life
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.getElementById('close-lightbox');
 
-    // 疏通物理级选择器：同时监听摄影和专辑网格
-    const photographyGrid = document.querySelector('#pane-photography .masonry-grid');
-    const albumGrid = document.querySelector('#pane-album .album-grid');
+    // 🎯 修复点 1：通讯录更新，寻找最新的摄影网格 ID
+    const photographyGrid = document.querySelector('#photography-grid');
+    const albumGrid = document.querySelector('.album-grid');
 
-    // 处理摄影网格点击放大 (保持非规则瀑布流质感)
     photographyGrid.addEventListener('click', handleGridClick);
-    // 处理专辑网格点击放大 (专门处理 album-cover 物理层)
     albumGrid.addEventListener('click', handleGridClick);
 
-    // 通用灯箱点击放大逻辑
     function handleGridClick(e) {
-        // 疏通物理层：寻找 photo-item 或 cover-wrap 
-        const item = e.target.closest('.photo-item') || e.target.closest('.cover-wrap');
+        // 🎯 修复点 2：通讯录更新，寻找最新的摄影卡片类名 (.fluid-photo)
+        const item = e.target.closest('.fluid-photo') || e.target.closest('.cover-wrap');
         if (!item) return;
         
-        // 寻找内部图片实体
         const img = item.querySelector('img');
-        
         // 只有当图片真正有链接 (且不为 0xcafebabe 级别的透明占位图) 时才触发放大
         if (img && img.src && img.style.opacity !== '0' && img.src !== window.location.href) {
             lightboxImg.src = img.src;
@@ -290,7 +285,7 @@ title: Gallery - My life
         if (e.target !== lightboxImg) closeLightbox();
     });
 
-    // ================= iOS 风格滑动过度逻辑 ( image_0.png 特效) =================
+    // ================= iOS 风格滑动过度逻辑 =================
     const tabGroup = document.querySelector('.gallery-tabs');
     tabGroup.addEventListener('click', function(e) {
         const clickedBtn = e.target.closest('.tab-btn');
@@ -299,7 +294,8 @@ title: Gallery - My life
 
         // 1. 更新按钮状态
         tabGroup.querySelector('.tab-active').classList.remove('tab-active');
-        tabGroup.querySelector('.tab-inactive').classList.add('tab-inactive'); 
+        const inactiveTab = tabGroup.querySelector('.tab-inactive');
+        if (inactiveTab) inactiveTab.classList.add('tab-inactive'); 
 
         clickedBtn.classList.remove('tab-inactive');
         clickedBtn.classList.add('tab-active');
