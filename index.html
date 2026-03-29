@@ -6,13 +6,9 @@ title: Home - My Life
 <style>
     /* --- 1. 英雄欢迎卡 (Hero Section) --- */
     .hero-card {
-        background-color: #ffffff;
-        border: 1px solid #E0DBCF;
-        border-radius: 20px;
-        padding: 50px 40px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
-        margin-bottom: 30px;
-        transition: all 0.3s;
+        background-color: #ffffff; border: 1px solid #E0DBCF; border-radius: 20px;
+        padding: 50px 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        margin-bottom: 30px; transition: all 0.3s;
     }
     .hero-card:hover { transform: translateY(-5px); }
 
@@ -25,57 +21,30 @@ title: Home - My Life
     .widget-card { background-color: #ffffff; border: 1px solid #E0DBCF; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
     .section-title { font-size: 0.85em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); margin-bottom: 25px; margin-top: 0; }
 
+    /* 每日一言与音乐 */
     .quote-content { font-family: serif; font-size: 1.3em; color: #333; line-height: 1.6; font-style: italic; margin-bottom: 15px; }
     .quote-author { text-align: right; color: var(--secondary-text); font-size: 0.9em; }
 
-    /* ================= 核心升级：精致动态日历 UI ================= */
-    .calendar-widget { text-align: center; }
-    
-    /* 顶部导航栏 (带箭头) */
-    .calendar-header-flex { 
-        display: flex; justify-content: space-between; align-items: center; 
-        margin-bottom: 20px; font-weight: 800; color: #111; font-size: 1.05em;
-    }
-    .cal-nav { cursor: pointer; color: #bbb; font-size: 0.9em; transition: color 0.2s; padding: 0 10px; }
-    .cal-nav:hover { color: var(--accent-color); }
-    
-    /* 日历网格 */
-    .calendar-grid { 
-        display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px 5px; 
-        text-align: center; font-size: 0.9em; margin-bottom: 20px; 
-    }
-    .day-name { color: #888; font-weight: 700; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; }
-    
-    /* 每一个日期节点的物理属性 */
-    .day-node { 
-        color: #555; width: 32px; height: 32px; line-height: 32px; margin: 0 auto; 
-        border-radius: 50%; transition: all 0.2s; cursor: default;
-    }
-    /* 鼠标悬停交互感 */
-    .day-node:not(.empty):not(.today):hover { background-color: #F1F3F5; color: #111; transform: scale(1.1); }
-    .day-node.empty { color: transparent; pointer-events: none; }
-    
-    /* "今天"的特殊高亮发光效果 */
-    .day-node.today { 
-        background-color: var(--accent-color); color: white; font-weight: bold; 
-        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.35); transform: scale(1.05); 
-    }
-    
-    /* 底部全称日期 */
-    .cal-date-text { font-size: 0.85em; color: #888; margin: 0; }
+    /* 日历模拟 */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; font-size: 0.9em; }
+    .day-name { color: #888; font-weight: bold; font-size: 0.8em; }
+    .today { background-color: var(--accent-color); color: white; border-radius: 50%; width: 30px; height: 30px; line-height: 30px; margin: 0 auto; }
 
-    /* --- 3. 列表区域 --- */
+    /* --- 3. 内容区域通用样式 --- */
     .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
     .list-header h2 { font-size: 1.8em; margin: 0; color: #111; }
     .view-all { color: var(--accent-color); text-decoration: none; font-size: 0.9em; }
 
+    /* 完美的文章卡片模具 (image_2.png 质感保持) */
     .article-card {
         background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #E0DBCF;
         transition: all 0.2s; text-decoration: none; color: inherit; display: block; margin-bottom: 20px;
+        position: relative; overflow: hidden;
     }
     .article-card:hover { border-color: var(--accent-color); transform: scale(1.01); box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
     .post-date { color: #888; font-size: 0.85em; font-family: monospace; }
     .post-title { font-size: 1.2em; font-weight: bold; color: #111; margin: 5px 0; }
+    .post-excerpt { color: var(--secondary-text); font-size: 0.95em; line-height: 1.6; margin: 5px 0 0 0; }
 
     /* 摄影网格预览 */
     .photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
@@ -101,17 +70,14 @@ title: Home - My Life
         </div>
     </div>
 
-    <div class="widget-card calendar-widget">
-        <div class="calendar-header-flex">
-            <span class="cal-nav">&lt;</span>
-            <span id="cal-month-year">Loading...</span>
-            <span class="cal-nav">&gt;</span>
+    <div class="widget-card">
+        <h3 class="section-title">日历</h3>
+        <div class="calendar-grid">
+            <div class="day-name">S</div><div class="day-name">M</div><div class="day-name">T</div><div class="day-name">W</div><div class="day-name">T</div><div class="day-name">F</div><div class="day-name">S</div>
+            <div style="color:#ccc">22</div><div style="color:#ccc">23</div><div style="color:#ccc">24</div><div style="color:#ccc">25</div><div style="color:#ccc">26</div><div style="color:#ccc">27</div>
+            <div class="today">28</div>
         </div>
-        
-        <div class="calendar-grid" id="cal-grid">
-            </div>
-        
-        <p id="cal-date-str" class="cal-date-text">Loading...</p>
+        <p style="font-size: 0.8em; color: #999; margin-top: 15px;">Saturday, March 2026</p>
     </div>
 </section>
 
@@ -120,10 +86,15 @@ title: Home - My Life
         <h2>最近文章</h2>
         <a href="blog.html" class="view-all">查看全部 &rarr;</a>
     </div>
-    <a href="#" class="article-card">
-        <span class="post-date">2026-03-28</span>
-        <p class="post-title">系统重建日志：从白纸开始的勇气</p>
+
+    {% for post in site.posts limit:1 %}
+    <a href="{{ post.url | relative_url }}" class="article-card">
+        <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        <h3 class="post-title">{{ post.title }}</h3>
+        <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
     </a>
+    {% endfor %}
+
 </section>
 
 <section style="margin-top: 50px; margin-bottom: 80px;">
@@ -139,66 +110,18 @@ title: Home - My Life
 </section>
 
 <script>
-    // 引擎 1：动态时钟与欢迎语
     function updateWelcome() {
         const now = new Date();
         const hour = now.getHours();
         let greeting = "";
-
         if (hour < 5) greeting = "夜深了，注意休息。";
         else if (hour < 11) greeting = "早上好，建构者";
         else if (hour < 13) greeting = "中午好，共振时刻";
         else if (hour < 18) greeting = "下午好，捕获光影";
         else greeting = "晚上好，连接数字大脑";
-
         document.getElementById('welcome-greeting').innerText = greeting;
         document.getElementById('dynamic-time').innerText = now.toLocaleTimeString('en-GB');
     }
-    
-    // 引擎 2：全自动日历生成器
-    function renderCalendar() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth(); // 0-11
-        const today = now.getDate();
-
-        // 渲染顶部月份
-        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        document.getElementById('cal-month-year').innerText = `${monthNames[month]} ${year}`;
-
-        // 渲染底部全称日期
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('cal-date-str').innerText = now.toLocaleDateString('en-GB', options);
-
-        // 计算这个月的第一天是星期几，以及这个月有几天
-        const firstDay = new Date(year, month, 1).getDay(); // 0 (Sun) to 6 (Sat)
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        // 拼接 HTML 积木
-        let gridHtml = '<div class="day-name">SU</div><div class="day-name">MO</div><div class="day-name">TU</div><div class="day-name">WE</div><div class="day-name">TH</div><div class="day-name">FR</div><div class="day-name">SA</div>';
-
-        // 填充第一天之前的空白网格
-        for (let i = 0; i < firstDay; i++) {
-            gridHtml += '<div class="day-node empty"></div>';
-        }
-        
-        // 填充真实日期
-        for (let i = 1; i <= daysInMonth; i++) {
-            if (i === today) {
-                // 如果是今天，加上特殊的发光样式
-                gridHtml += `<div class="day-node today">${i}</div>`;
-            } else {
-                // 普通日期
-                gridHtml += `<div class="day-node">${i}</div>`;
-            }
-        }
-        
-        // 注入到页面
-        document.getElementById('cal-grid').innerHTML = gridHtml;
-    }
-
-    // 启动双核引擎
     updateWelcome();
-    renderCalendar();
-    setInterval(updateWelcome, 1000); // 时钟每秒跳动
+    setInterval(updateWelcome, 1000);
 </script>
