@@ -63,21 +63,15 @@ title: Home - My Life
 <section class="widgets-grid">
     <div class="widget-card">
         <h3 class="section-title">每日一言</h3>
-        <p class="quote-content">"We suffer more often in imagination than in reality."</p>
-        <p class="quote-author">—Seneca </p>
-        <div style="margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="//music.163.com/outchain/player?type=2&id=1901371647&auto=0&height=66"></iframe>
+        <p class="quote-content">"所谓审美，是在混乱的世界中建立秩序的本能。"</p>
+        <p class="quote-author">— JAY'S SYSTEM</p>
         </div>
-    </div>
 
     <div class="widget-card">
         <h3 class="section-title">日历</h3>
-        <div class="calendar-grid">
-            <div class="day-name">S</div><div class="day-name">M</div><div class="day-name">T</div><div class="day-name">W</div><div class="day-name">T</div><div class="day-name">F</div><div class="day-name">S</div>
-            <div style="color:#ccc">22</div><div style="color:#ccc">23</div><div style="color:#ccc">24</div><div style="color:#ccc">25</div><div style="color:#ccc">26</div><div style="color:#ccc">27</div>
-            <div class="today">28</div>
+        <div class="calendar-grid" id="dynamic-calendar">
         </div>
-        <p style="font-size: 0.8em; color: #999; margin-top: 15px;">Saturday, March 2026</p>
+        <p id="calendar-text" style="font-size: 0.8em; color: #999; margin-top: 15px;">Loading...</p>
     </div>
 </section>
 
@@ -126,6 +120,7 @@ title: Home - My Life
 </section>
 
 <script>
+    // 引擎 1：动态问候与时钟
     function updateWelcome() {
         const now = new Date();
         const hour = now.getHours();
@@ -140,4 +135,38 @@ title: Home - My Life
     }
     updateWelcome();
     setInterval(updateWelcome, 1000);
+
+    // 引擎 2：全自动日历生成器
+    function updateCalendar() {
+        const now = new Date();
+        const today = now.getDate();
+        const dayOfWeek = now.getDay(); // 获取今天是星期几 (0是周日，6是周六)
+        
+        // 计算本周的起始日期 (周日)
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(today - dayOfWeek);
+
+        const calendarGrid = document.getElementById('dynamic-calendar');
+        let html = '<div class="day-name">S</div><div class="day-name">M</div><div class="day-name">T</div><div class="day-name">W</div><div class="day-name">T</div><div class="day-name">F</div><div class="day-name">S</div>';
+
+        // 循环生成本周的 7 天
+        for (let i = 0; i < 7; i++) {
+            const currentDay = new Date(startOfWeek);
+            currentDay.setDate(startOfWeek.getDate() + i);
+            const dateNum = currentDay.getDate();
+            
+            // 物理追踪：如果循环到的这一天刚好是“今天”，就给它套上蓝色的高亮圈圈！
+            if (dateNum === today && currentDay.getMonth() === now.getMonth()) {
+                html += `<div class="today">${dateNum}</div>`;
+            } else {
+                html += `<div style="color:#ccc">${dateNum}</div>`;
+            }
+        }
+        calendarGrid.innerHTML = html;
+
+        // 自动输出当天的英文字符 (例如：Monday, March 2026)
+        const options = { weekday: 'long', year: 'numeric', month: 'long' };
+        document.getElementById('calendar-text').innerText = now.toLocaleDateString('en-GB', options);
+    }
+    updateCalendar(); // 启动日历引擎
 </script>
