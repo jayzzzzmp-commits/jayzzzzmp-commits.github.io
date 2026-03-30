@@ -126,10 +126,10 @@ title: Home - My Life
         const hour = now.getHours();
         let greeting = "";
         if (hour < 5) greeting = "夜深了，注意休息。";
-        else if (hour < 11) greeting = "早上好，建构者";
+        else if (hour < 11) greeting = "早上好，把每一天当作人生的最后一天";
         else if (hour < 13) greeting = "中午好，共振时刻";
         else if (hour < 18) greeting = "下午好，捕获光影";
-        else greeting = "晚上好，连接数字大脑";
+        else greeting = "晚上好，注意早点休息";
         document.getElementById('welcome-greeting').innerText = greeting;
         document.getElementById('dynamic-time').innerText = now.toLocaleTimeString('en-GB');
     }
